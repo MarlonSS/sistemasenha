@@ -1,5 +1,6 @@
 package com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos;
 
+import com.projeto.arquitetura.ifba.sistemasenha.models.Institution;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,6 @@ import lombok.Setter;
 public class AccountDTO {
     private String login;
     private String pass;
-    private int institution;
+    private Institution institution;
 
 }

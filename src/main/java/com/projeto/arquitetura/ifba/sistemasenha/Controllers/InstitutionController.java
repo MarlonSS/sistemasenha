@@ -1,5 +1,6 @@
 package com.projeto.arquitetura.ifba.sistemasenha.Controllers;
 
+import com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos.InstitutionDTO;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.AccountService;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.InstitutionService;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,26 +25,32 @@ public class InstitutionController implements Serializable {
     @Autowired
     private InstitutionService institutionService;
 
-
-
     @GetMapping("/listar")
     public List<Institution> listAll(){
         return institutionService.list();
     }
 
-    @PostMapping("/adicionar")
-    public ResponseEntity<String> post(Institution institution) throws Exception {
-        institutionService.post(institution);
-        return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+    @PostMapping(path = "/adicionar", produces = "application/json")
+    public ResponseEntity<String> post(@RequestBody @Valid InstitutionDTO institution) throws Exception {
+        if (institution != null) {
+            institutionService.post(institution);
+            return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>("Dados vazios.", HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable("") Long id, @RequestBody Institution institution) throws Exception {
         try{
-            institutionService.update(id, institution);
-            return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+            if(institution != null) {
+                institutionService.update(id, institution);
+                return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+            }else{
+                return new ResponseEntity<>("Dados vazios.", HttpStatus.NOT_ACCEPTABLE);
+            }
         } catch (Exception e){
-            return new ResponseEntity<>("Dados incorretos", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Dados incorretos", HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @DeleteMapping("/")
@@ -51,7 +59,7 @@ public class InstitutionController implements Serializable {
             institutionService.delete(id);
             return new ResponseEntity<>("Conta Deletada", HttpStatus.ACCEPTED);
         } catch (Exception e){
-            return new ResponseEntity<>("Dados incorretos", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Dados incorretos", HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.projeto.arquitetura.ifba.sistemasenha.Services;
 
+import com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos.InstitutionDTO;
 import com.projeto.arquitetura.ifba.sistemasenha.Repository.AccountRepository;
 import com.projeto.arquitetura.ifba.sistemasenha.Repository.InstitutionRepository;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,11 +26,14 @@ public class InstitutionService implements Serializable {
         return institutionRepository.findAll();
     }
 
-    public void post(Institution institution) throws Exception {
+    public void post(@RequestBody @Valid InstitutionDTO institution) throws Exception {
+        var inst = new Institution();
         if (institution == null) {
             throw new Exception("Não há nada.");
         } else {
-            institutionRepository.save(institution);
+            inst.setName(institution.getName());
+            inst.setUser(institution.getUser());
+            institutionRepository.save(inst);
         }
     }
 

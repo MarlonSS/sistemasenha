@@ -1,13 +1,10 @@
 package com.projeto.arquitetura.ifba.sistemasenha.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,13 +12,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name ="instiution")
+@Table(name ="institution")
 public class Institution {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name="id")
 private long id;
+@NotBlank
 @Column(name="name")
 private String name;
-//private List<Account> listaccount;
+@ManyToOne(cascade=CascadeType.ALL)
+@JoinColumn(name = "iduser")
+private User user;
 }

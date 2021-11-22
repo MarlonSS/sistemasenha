@@ -24,6 +24,7 @@ public class UserService implements Serializable {
     }
 
     public void post(User user) throws Exception {
+
         if (user == null) {
             throw new Exception("Não há nada.");
         } else {

@@ -3,6 +3,7 @@ package com.projeto.arquitetura.ifba.sistemasenha.Controllers;
 import java.io.Serializable;
 import java.util.List;
 
+import com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos.AccountDTO;
 import com.projeto.arquitetura.ifba.sistemasenha.Repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import javax.validation.Valid;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,10 +35,19 @@ public class AccountController implements Serializable {
 		return accService.list();
 	}
 
-	@PostMapping("/adicionar")
-	public ResponseEntity<String> post(Account account) throws Exception {
-	accService.post(account);
-	return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+	@GetMapping("listarUnico")
+	public ResponseEntity<Account> findOne(@RequestParam("id") Long id){
+	return new ResponseEntity<>(accService.findOne(id), HttpStatus.OK);
+	}
+
+	@PostMapping(path = "/adicionar", produces = "application/json")
+	public ResponseEntity<String> post(@RequestBody @Valid AccountDTO account) throws Exception {
+		if(account != null) {
+			accService.post(account);
+			return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
+		}else{
+			return new ResponseEntity<>("Dados incorretos ou vazios.", HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	@PutMapping("/{id}")
