@@ -3,6 +3,7 @@ package com.projeto.arquitetura.ifba.sistemasenha.Controllers;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.AccountService;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.UserService;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
+import com.projeto.arquitetura.ifba.sistemasenha.models.Institution;
 import com.projeto.arquitetura.ifba.sistemasenha.models.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +32,11 @@ public class UserController implements Serializable {
         return userService.list();
     }
 
+    @GetMapping("/listarUnico")
+    public ResponseEntity<User> findOne(@RequestParam ("id") Long id){
+        return new ResponseEntity<>(userService.findOne(id), HttpStatus.OK);
+    }
+
     @PostMapping("/adicionar")
     public ResponseEntity<String> post(User user) throws Exception {
         userService.post(user);
@@ -42,7 +49,7 @@ public class UserController implements Serializable {
             userService.update(id, user);
             return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
         } catch (Exception e){
-            return new ResponseEntity<>("Dados incorretos", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Dados incorretos", HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @DeleteMapping("/")
@@ -51,7 +58,7 @@ public class UserController implements Serializable {
             userService.delete(id);
             return new ResponseEntity<>("Conta Deletada", HttpStatus.ACCEPTED);
         } catch (Exception e){
-            return new ResponseEntity<>("Dados incorretos", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Dados incorretos", HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }

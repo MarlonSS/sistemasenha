@@ -26,6 +26,16 @@ public class InstitutionService implements Serializable {
         return institutionRepository.findAll();
     }
 
+    public Institution findOne(@RequestParam("id") Long id){
+        if(institutionRepository.existsById(id)) {
+            Institution var= institutionRepository.findById(id).get();
+            return var;
+        }else{
+            return null;
+        }
+    }
+
+
     public void post(@RequestBody @Valid InstitutionDTO institution) throws Exception {
         var inst = new Institution();
         if (institution == null) {

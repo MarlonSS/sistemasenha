@@ -35,7 +35,7 @@ public class AccountController implements Serializable {
 		return accService.list();
 	}
 
-	@GetMapping("listarUnico")
+	@GetMapping("/listarUnico")
 	public ResponseEntity<Account> findOne(@RequestParam("id") Long id){
 	return new ResponseEntity<>(accService.findOne(id), HttpStatus.OK);
 	}

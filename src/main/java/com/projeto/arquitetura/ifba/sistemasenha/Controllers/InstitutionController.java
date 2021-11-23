@@ -30,6 +30,11 @@ public class InstitutionController implements Serializable {
         return institutionService.list();
     }
 
+    @GetMapping("/listarUnico")
+    public ResponseEntity<Institution> findOne(@RequestParam ("id") Long id){
+        return new ResponseEntity<>(institutionService.findOne(id), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/adicionar", produces = "application/json")
     public ResponseEntity<String> post(@RequestBody @Valid InstitutionDTO institution) throws Exception {
         if (institution != null) {
