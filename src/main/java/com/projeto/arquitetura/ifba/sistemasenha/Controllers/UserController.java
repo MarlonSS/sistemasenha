@@ -1,5 +1,6 @@
 package com.projeto.arquitetura.ifba.sistemasenha.Controllers;
 
+import com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos.UserDto;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.AccountService;
 import com.projeto.arquitetura.ifba.sistemasenha.Services.UserService;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
@@ -13,19 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/usuario")
 public class UserController implements Serializable {
 
     @Autowired
     private UserService userService;
-
-
 
     @GetMapping("/listar")
     public List<User> listAll(){
@@ -38,7 +37,7 @@ public class UserController implements Serializable {
     }
 
     @PostMapping("/adicionar")
-    public ResponseEntity<String> post(User user) throws Exception {
+    public ResponseEntity<String> post(@RequestBody @Valid UserDto user) throws Exception {
         userService.post(user);
         return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
     }
@@ -49,7 +48,7 @@ public class UserController implements Serializable {
             userService.update(id, user);
             return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);
         } catch (Exception e){
-            return new ResponseEntity<>("Dados incorretos", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Dados Vazios", HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @DeleteMapping("/")

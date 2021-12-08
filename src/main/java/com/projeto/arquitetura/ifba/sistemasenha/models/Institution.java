@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name ="institution")
-public class Institution {
+public class Institution implements Serializable{
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name="id")

@@ -36,7 +36,7 @@ public class InstitutionController implements Serializable {
     }
 
     @PostMapping(path = "/adicionar", produces = "application/json")
-    public ResponseEntity<String> post(@RequestBody @Valid InstitutionDTO institution) throws Exception {
+    public ResponseEntity<String> post(@RequestBody InstitutionDTO institution) throws Exception {
         if (institution != null) {
             institutionService.post(institution);
             return new ResponseEntity<>("Conta Salva", HttpStatus.ACCEPTED);

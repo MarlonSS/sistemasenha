@@ -1,5 +1,6 @@
 package com.projeto.arquitetura.ifba.sistemasenha.Services;
 
+import com.projeto.arquitetura.ifba.sistemasenha.Controllers.Dtos.UserDto;
 import com.projeto.arquitetura.ifba.sistemasenha.Repository.UserRepository;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Account;
 import com.projeto.arquitetura.ifba.sistemasenha.models.Institution;
@@ -11,18 +12,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService implements Serializable {
 
     @Autowired
     private UserRepository userRepository;
 
     public List<User> list() {
-        return userRepository.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     public User findOne(@RequestParam("id") Long id){
@@ -34,25 +37,25 @@ public class UserService implements Serializable {
         }
     }
 
-    public void post(@Valid User user) throws Exception {
+    public void post(@RequestBody @Valid UserDto user) throws Exception {
          var us = new User();
         if (user == null) {
             throw new Exception("Não há nada.");
         } else {
             us.setName(user.getName());
-            us.setLogin(user.getLogin());
+            us.setUsername(user.getUsername());
             us.setPass(user.getPass());
             userRepository.save(us);
         }
     }
 
-    public void update(@PathVariable("")  Long id, @RequestBody @Valid User user) throws Exception {
-        var c = userRepository.findById(id);
+    public void update(@PathVariable("")  Long id, @RequestBody User user) throws Exception {
+       var c = userRepository.findById(id);
 
         if (c.isPresent()) {
             var aux = c.get();
             aux.setName(user.getName());
-            aux.setLogin(user.getLogin());
+            aux.setUsername(user.getUsername());
             aux.setPass(user.getPass());
             userRepository.save(aux);
         } else {

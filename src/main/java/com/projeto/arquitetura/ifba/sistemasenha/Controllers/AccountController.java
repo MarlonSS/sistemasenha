@@ -8,6 +8,7 @@ import com.projeto.arquitetura.ifba.sistemasenha.Repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +61,7 @@ public class AccountController implements Serializable {
 		}
 		}
 	@DeleteMapping("/")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> delete(@RequestParam("id") Long id) throws Exception {
 		try{
 			accService.delete(id);
