@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic().and().
-                csrf().disable();
+                csrf();
     }
 
     @Override
