@@ -1,3 +1,6 @@
+
+Obs.: Professor não tive exito no front, e acabei foi complicando mais no back end. Se possível avalie somente a arquitetura, pois o codigo é inutil.
+
 Documento Arquitetural - Projeto Arquitetura Software
 
 
